@@ -65,7 +65,6 @@ Note: The app uses a local SQLite database that is created on first launch. No e
 
 ---
 
-
 ## 📁 Project Structure
 
       lib/
@@ -109,6 +108,8 @@ Profitara creates the following tables on first run (version 10):
 | `production_runs`   | Executed production runs with profit/revenue|
 
 All foreign keys are enforced with `ON DELETE CASCADE` where appropriate.
+
+---
 
 ## 🧪 Usage Guide
 
@@ -169,6 +170,8 @@ For *pack, box, or bundle,* specify the number of pieces it contains.
 
 - Toggle **Dark Mode** – the preference is saved.
 
+---
+
 ## 🎨 Customization
 
 ### Colors & Fonts
@@ -184,17 +187,23 @@ The `pubspec.yaml` includes the required font declarations.
 
 - Custom pack sizes are stored per stock in `stock_unit_pieces` and passed to conversion methods.
 
+---
 
 ## 📄 License
 
 This project is open‑source and available under the **MIT License**.
 Feel free to use, modify, and distribute it as you wish.
 
+---
 
 ## 👤 Author
 
 Created by [NelArevs](https://github.com/arevalojennel) – a tool for small business owners.
 For questions or contributions, please open an issue on GitHub.
 
+--- 
+
+## 📥 Download
+[Download the latest APK](https://github.com/arevalojennel/profitara/releases/tag/Profitara)
 
 Happy selling! 🚀
