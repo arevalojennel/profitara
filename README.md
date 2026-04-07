@@ -68,29 +68,29 @@ Note: The app uses a local SQLite database that is created on first launch. No e
 
 ## 📁 Project Structure
 
-lib/
-├── blocs/                 # BLoC state management
-│   ├── batch/            # BatchBloc (batches, production runs)
-│   ├── inventory/        # InventoryBloc (stocks, categories, waste)
-│   └── statistics/       # StatisticsBloc (dashboard data)
-├── database/             # SQLite helper (DatabaseHelper)
-├── models/               # Data models (Stock, Batch, ProductionRun, etc.)
-├── pages/                # UI screens
-│   ├── add_batch_page.dart
-│   ├── add_stock_page.dart
-│   ├── batch_details_page.dart
-│   ├── batch_page.dart
-│   ├── inventory_page.dart
-│   ├── main_page.dart
-│   ├── production_details_page.dart
-│   ├── production_list_page.dart
-│   ├── settings_page.dart
-│   ├── statistics_page.dart
-│   └── stock_details_page.dart
-├── providers/            # ThemeProvider (for light/dark mode)
-├── repositories/         # Data layer (Stock, Batch, Waste repositories)
-├── theme/                # App colors, text themes
-└── utils/                # Unit conversions, helpers
+      lib/
+      ├── blocs/                 # BLoC state management
+      │   ├── batch/            # BatchBloc (batches, production runs)
+      │   ├── inventory/        # InventoryBloc (stocks, categories, waste)
+      │   └── statistics/       # StatisticsBloc (dashboard data)
+      ├── database/             # SQLite helper (DatabaseHelper)
+      ├── models/               # Data models (Stock, Batch, ProductionRun, etc.)
+      ├── pages/                # UI screens
+      │   ├── add_batch_page.dart
+      │   ├── add_stock_page.dart
+      │   ├── batch_details_page.dart
+      │   ├── batch_page.dart
+      │   ├── inventory_page.dart
+      │   ├── main_page.dart
+      │   ├── production_details_page.dart
+      │   ├── production_list_page.dart
+      │   ├── settings_page.dart
+      │   ├── statistics_page.dart
+      │   └── stock_details_page.dart
+      ├── providers/            # ThemeProvider (for light/dark mode)
+      ├── repositories/         # Data layer (Stock, Batch, Waste repositories)
+      ├── theme/                # App colors, text themes
+      └── utils/                # Unit conversions, helpers
 
 ---
 
