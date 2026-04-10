@@ -75,6 +75,7 @@ class _AddBatchPageState extends State<AddBatchPage> {
                         const Text('Materials',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 16),
                         MaterialSelector(
                           stocks: stocks,
                           onAdd: _addMaterial,
@@ -98,6 +99,7 @@ class _AddBatchPageState extends State<AddBatchPage> {
                             ),
                           );
                         }),
+                        const SizedBox(height: 8),
                         TextFormField(
                           controller: _yieldController,
                           decoration: const InputDecoration(
@@ -105,6 +107,7 @@ class _AddBatchPageState extends State<AddBatchPage> {
                           keyboardType: TextInputType.number,
                           validator: (v) => v!.isEmpty ? 'Required' : null,
                         ),
+                        const SizedBox(height: 8),
                         TextFormField(
                           controller: _marginController,
                           decoration: const InputDecoration(
@@ -140,30 +143,72 @@ class _AddBatchPageState extends State<AddBatchPage> {
                               );
                             },
                           ),
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: _isSaving ? null : _saveBatch,
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 50),
-                          ),
-                          child: _isSaving
-                              ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator())
-                              : Text(
-                                  'Save Batch',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: isDark
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .onTertiary,
-                                  ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await _calculateTotalCost(stocks);
+                                  setState(
+                                      () {}); // Force rebuild to refresh the FutureBuilder
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  // minimumSize: const Size(double.infinity, 50),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.tertiary,
                                 ),
+                                child: _isSaving
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator())
+                                    : Text(
+                                        'Calculate Cost',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: isDark
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .onTertiary,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: _isSaving ? null : _saveBatch,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                ),
+                                child: _isSaving
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator())
+                                    : Text(
+                                        'Save Batch',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: isDark
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .onTertiary,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

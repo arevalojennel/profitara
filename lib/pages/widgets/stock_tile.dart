@@ -12,23 +12,26 @@ class StockTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final (qtyDisplay, qtyUnit) = stock.getDisplayQuantity();
 
-    return Card(
-      child: ListTile(
-        title: Text(stock.name),
-        subtitle: Text(
-          'Qty: ${qtyDisplay.toStringAsFixed(qtyDisplay.truncateToDouble() == qtyDisplay ? 0 : 2)} $qtyUnit',
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 8.0),
+      child: Card(
+        child: ListTile(
+          title: Text(stock.name),
+          subtitle: Text(
+            'Qty: ${qtyDisplay.toStringAsFixed(qtyDisplay.truncateToDouble() == qtyDisplay ? 0 : 2)} $qtyUnit',
+          ),
+          trailing: stock.isLowStock
+              ? const Icon(Icons.warning, color: Colors.red)
+              : null,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => StockDetailsPage(stockId: stock.id),
+              ),
+            );
+          },
         ),
-        trailing: stock.isLowStock
-            ? const Icon(Icons.warning, color: Colors.red)
-            : null,
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => StockDetailsPage(stockId: stock.id),
-            ),
-          );
-        },
       ),
     );
   }

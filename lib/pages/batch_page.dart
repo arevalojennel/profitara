@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:profitara/blocs/batch/batch_bloc.dart';
 import 'package:profitara/blocs/batch/batch_state.dart';
+import 'package:profitara/pages/add_batch_page.dart';
 import 'package:profitara/pages/batch_details_page.dart';
 import 'package:profitara/utils/snackbar_utils.dart';
 
@@ -25,20 +26,23 @@ class BatchPage extends StatelessWidget {
               itemCount: state.batches.length,
               itemBuilder: (ctx, i) {
                 final batch = state.batches[i];
-                return Card(
-                  child: ListTile(
-                    title: Text(batch.name),
-                    subtitle: Text(
-                        'Yield: ${batch.piecesYield} | Margin: ${batch.profitMargin}%'),
-                    trailing: Text('Produced: ${batch.producedCount}'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BatchDetailsPage(batch: batch),
-                        ),
-                      );
-                    },
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 8.0),
+                  child: Card(
+                    child: ListTile(
+                      title: Text(batch.name),
+                      subtitle: Text(
+                          'Yield: ${batch.piecesYield} | Margin: ${batch.profitMargin}%'),
+                      trailing: Text('Produced: ${batch.producedCount}'),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BatchDetailsPage(batch: batch),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },
@@ -68,6 +72,8 @@ class BatchPage extends StatelessWidget {
                 message: "Please Add Stocks before Adding Batches",
                 snackPosition: SnackPosition.TOP,
               );
+            } else {
+              Get.to(() => const AddBatchPage());
             }
           },
           // onPressed: () => Navigator.push(

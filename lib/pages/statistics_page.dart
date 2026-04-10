@@ -23,6 +23,7 @@ class StatisticsPage extends StatelessWidget {
               : Theme.of(context).colorScheme.onSecondary,
           fontWeight: FontWeight.bold,
         ),
+        leading: null,
         // actions: [
         //   // IconButton(
         //   //   icon: Icon(Icons.refresh),

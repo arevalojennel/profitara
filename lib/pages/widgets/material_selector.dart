@@ -35,6 +35,7 @@ class _MaterialSelectorState extends State<MaterialSelector> {
           },
           decoration: const InputDecoration(labelText: 'Select Material'),
         ),
+        const SizedBox(height: 16),
         if (_selectedStock != null) ...[
           Row(
             children: [
@@ -53,6 +54,7 @@ class _MaterialSelectorState extends State<MaterialSelector> {
               ),
             ],
           ),
+          const SizedBox(height: 8),
           ElevatedButton(
             onPressed: () {
               final qty = double.tryParse(_qtyController.text) ?? 0;
