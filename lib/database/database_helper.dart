@@ -35,13 +35,16 @@ class DatabaseHelper {
   }
 
   Future<void> _ensureColumns(Database db) async {
-    // Get current columns in stocks table
+    // Guard: if stocks table doesn't exist at all, skip — onCreate will handle it
+    final tables = await db.rawQuery(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='stocks'");
+    if (tables.isEmpty) return;
+
     List<Map<String, dynamic>> columns =
         await db.rawQuery('PRAGMA table_info(stocks)');
     List<String> columnNames =
         columns.map((col) => col['name'] as String).toList();
 
-    // Add missing columns one by one
     if (!columnNames.contains('wasteQuantity')) {
       await db.execute(
           'ALTER TABLE stocks ADD COLUMN wasteQuantity REAL DEFAULT 0');
@@ -65,22 +68,22 @@ class DatabaseHelper {
       )
     ''');
 
-    // Stocks
-    db.execute('''
-        CREATE TABLE stocks(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
-          categoryId INTEGER,
-          baseUnit TEXT,
-          quantity REAL,
-          costPerBaseUnit REAL,
-          minStockLevel REAL,
-          availableUnits TEXT,
-          totalAddedQuantity REAL DEFAULT 0,  // 🆕
-          wasteQuantity REAL DEFAULT 0,
-          wasteValue REAL DEFAULT 0
-        )
-      ''');
+    // Stocks — ✅ await added
+    await db.execute('''
+      CREATE TABLE stocks(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        categoryId INTEGER,
+        baseUnit TEXT,
+        quantity REAL,
+        costPerBaseUnit REAL,
+        minStockLevel REAL,
+        availableUnits TEXT,
+        totalAddedQuantity REAL DEFAULT 0,
+        wasteQuantity REAL DEFAULT 0,
+        wasteValue REAL DEFAULT 0
+      )
+    ''');
 
     // Batches
     await db.execute('''
@@ -152,8 +155,9 @@ class DatabaseHelper {
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Migration from version 1 to 2: change from old unit ID system to string-based units
+    // ✅ Early return prevents all subsequent ALTER TABLE statements from running
+    //    on a freshly recreated schema that already has all columns.
     if (oldVersion < 2) {
-      // For simplicity, we drop and recreate. In a real app you'd migrate data.
       await db.execute('DROP TABLE IF EXISTS batch_materials');
       await db.execute('DROP TABLE IF EXISTS stocks');
       await db.execute('DROP TABLE IF EXISTS categories');
@@ -200,7 +204,6 @@ class DatabaseHelper {
           FOREIGN KEY (batchId) REFERENCES batches (id)
         )
       ''');
-      // Copy data from old table, setting actualSold to total theoretical yield (multiplier * piecesYield) and materialCost to 0 initially
       await db.execute('''
         INSERT INTO production_runs_new (id, batchId, multiplier, profit, revenue, date, actualSold, materialCost)
         SELECT 
@@ -233,17 +236,20 @@ class DatabaseHelper {
       ''');
     }
 
+    // Migration from version 5 to 6: add waste tracking columns to stocks
     if (oldVersion < 6) {
-      // Add new columns
       await db.execute(
           'ALTER TABLE stocks ADD COLUMN wasteQuantity REAL DEFAULT 0');
       await db
           .execute('ALTER TABLE stocks ADD COLUMN wasteValue REAL DEFAULT 0');
     }
+
+    // Migration from version 6 to 7: add totalAddedQuantity column to stocks
     if (oldVersion < 7) {
-      // 🆕 Add totalAddedQuantity column
       await db.execute(
           'ALTER TABLE stocks ADD COLUMN totalAddedQuantity REAL DEFAULT 0');
     }
+
+    // Versions 8, 9, 10: no schema changes — add future migrations here
   }
 }

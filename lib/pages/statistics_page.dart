@@ -46,7 +46,7 @@ class StatisticsPage extends StatelessWidget {
             color: Theme.of(context).colorScheme.surface,
             // animSpeedFactor: 2,
             backgroundColor: Theme.of(context).colorScheme.tertiary,
-            // springAnimationDurationInMilliseconds: 300,
+            springAnimationDurationInMilliseconds: 300,
             onRefresh: () async {
               context.read<StatisticsBloc>().add(UpdateStatistics());
             },

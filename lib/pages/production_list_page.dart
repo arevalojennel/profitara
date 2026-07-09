@@ -5,6 +5,7 @@ import 'package:profitara/blocs/batch/batch_event.dart';
 import 'package:profitara/blocs/batch/batch_state.dart';
 import 'package:profitara/pages/production_details_page.dart';
 import 'package:intl/intl.dart';
+import 'package:profitara/utils/ui_utils/custom_loader_animation.dart';
 
 class ProductionListPage extends StatelessWidget {
   const ProductionListPage({super.key});
@@ -22,7 +23,8 @@ class ProductionListPage extends StatelessWidget {
           } else if (state is ProductionRunsLoaded) {
             final runs = state.runs;
             if (runs.isEmpty) {
-              return const Center(child: Text('No production runs yet.'));
+              // return const Center(child: Text('No production runs yet.'));
+              return const Center(child: CustomLoaderAnimation());
             }
             return ListView.builder(
               itemCount: runs.length,
